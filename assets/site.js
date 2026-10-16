@@ -4,6 +4,7 @@
   var saveData = navigator.connection && navigator.connection.saveData;
   var finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
   var VPARAMS = 'title=0&byline=0&portrait=0&color=D4112E&dnt=1';
+  var EN = document.documentElement.lang === 'en';
 
   /* ---------- Smooth scroll (Lenis) ---------- */
   var lenis = null;
@@ -18,7 +19,7 @@
   modal.setAttribute('role', 'dialog');
   modal.setAttribute('aria-modal', 'true');
   modal.setAttribute('aria-label', 'Video');
-  modal.innerHTML = '<button class="x" aria-label="Cerrar video"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button><div class="frame"></div><div class="cap"></div>';
+  modal.innerHTML = '<button class="x" aria-label="' + (EN ? 'Close video' : 'Cerrar video') + '"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button><div class="frame"></div><div class="cap"></div>';
   document.body.appendChild(modal);
   var frame = modal.querySelector('.frame'), cap = modal.querySelector('.cap'), lastFocus = null;
   function openVideo(id, title) {
@@ -224,7 +225,7 @@
     burger.addEventListener('click', function () {
       var o = nav.classList.toggle('open');
       burger.setAttribute('aria-expanded', o);
-      burger.setAttribute('aria-label', o ? 'Cerrar menú' : 'Abrir menú');
+      burger.setAttribute('aria-label', o ? (EN ? 'Close menu' : 'Cerrar menú') : (EN ? 'Open menu' : 'Abrir menú'));
     });
     nav.querySelectorAll('.mobile-menu a').forEach(function (a) {
       a.addEventListener('click', function () { nav.classList.remove('open'); burger.setAttribute('aria-expanded', 'false'); });
@@ -312,6 +313,35 @@
       });
       host.addEventListener('mouseleave', function () { m.style.setProperty('--rx', '0deg'); m.style.setProperty('--ry', '0deg'); m.style.setProperty('--hx', '50%'); m.style.setProperty('--hy', '50%'); });
     });
+  }
+
+  /* ---------- Blog: filtros + índice activo ---------- */
+  var chips = document.querySelectorAll('.chips button');
+  chips.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var f = b.getAttribute('data-filter');
+      chips.forEach(function (o) { o.classList.toggle('on', o === b); });
+      document.querySelectorAll('.bgrid .bcard').forEach(function (c) {
+        c.classList.toggle('hide', f !== 'all' && c.getAttribute('data-cat') !== f);
+        if (!c.classList.contains('hide')) c.classList.add('in');
+      });
+    });
+  });
+  document.querySelectorAll('[data-share]').forEach(function (a) {
+    var u = encodeURIComponent(location.href), t = encodeURIComponent(document.querySelector('h1') ? document.querySelector('h1').textContent.replace(/\s+/g, ' ').trim() : document.title);
+    if (a.href.indexOf('wa.me') > -1) a.href = 'https://wa.me/?text=' + t + '%20' + u;
+    else if (a.href.indexOf('facebook') > -1) a.href = 'https://www.facebook.com/sharer/sharer.php?u=' + u;
+    else a.href = 'https://twitter.com/intent/tweet?text=' + t + '&url=' + u;
+  });
+  var tocLinks = document.querySelectorAll('.ptoc a[href^="#"]');
+  if (tocLinks.length && 'IntersectionObserver' in window) {
+    var heads = Array.prototype.map.call(tocLinks, function (a) { return document.getElementById(a.getAttribute('href').slice(1)); }).filter(Boolean);
+    var tio = new IntersectionObserver(function (es) {
+      es.forEach(function (en) {
+        if (en.isIntersecting) tocLinks.forEach(function (a) { a.classList.toggle('on', a.getAttribute('href') === '#' + en.target.id); });
+      });
+    }, { rootMargin: '-15% 0px -70% 0px' });
+    heads.forEach(function (h) { tio.observe(h); });
   }
 
   /* ---------- Custom cursor ---------- */
