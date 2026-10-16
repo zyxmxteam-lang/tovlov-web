@@ -795,7 +795,7 @@ html[lang=en] .bcard.big::after{content:"Featured"}
 .pfaq{margin-top:56px!important}
 .pfaq h2{margin-top:0!important}
 .psrc{margin-top:48px!important;border-top:1px solid var(--line);padding-top:26px}
-.psrc ol{counter-reset:s;gap:8px;font-size:13px;line-height:1.55;color:var(--mute2)}
+.psrc ol{counter-reset:o;gap:8px;font-size:13px;line-height:1.55;color:var(--mute2)}
 .psrc ol li{padding-left:30px}
 .psrc ol li::before{content:counter(o) ".";border:0;padding:0;font-size:12px;color:var(--mute2)}
 .pauthor{display:flex;gap:16px;align-items:center;margin-top:32px!important;padding:20px;border:1px solid var(--line);border-radius:18px;background:var(--card)}
@@ -822,3 +822,5 @@ html[lang=en] .bcard.big::after{content:"Featured"}
 .post-layout>*{min-width:0}
 @media (max-width:1000px){.post-layout{grid-template-columns:minmax(0,1fr)}}
 .chart figcaption{display:block;border-top:0;padding-top:0;margin-top:0}
+.pauthor .pav{flex:none;width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#141414;border:1px solid rgba(255,59,78,.45);box-shadow:0 10px 30px -12px rgba(212,17,46,.5)}
+.pauthor .pav img{width:54px;height:auto;display:block}
