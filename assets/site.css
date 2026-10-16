@@ -824,3 +824,12 @@ html[lang=en] .bcard.big::after{content:"Featured"}
 .chart figcaption{display:block;border-top:0;padding-top:0;margin-top:0}
 .pauthor .pav{flex:none;width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#141414;border:1px solid rgba(255,59,78,.45);box-shadow:0 10px 30px -12px rgba(212,17,46,.5)}
 .pauthor .pav img{width:54px;height:auto;display:block}
+/* tarjeta de autor */
+.pauthor{gap:20px;padding:22px 24px}
+.pauthor .pav{width:84px;height:84px;min-width:84px}
+.pauthor .pav img{width:62px;max-width:none}
+@media (max-width:640px){
+  .pauthor{flex-direction:column;align-items:flex-start;gap:14px;padding:22px}
+  .pauthor .pav{width:auto;height:auto;min-width:0;border-radius:14px;padding:12px 16px}
+  .pauthor .pav img{width:86px}
+}
